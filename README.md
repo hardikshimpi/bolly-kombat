@@ -3,7 +3,13 @@
 A Mortal Kombat-style 2D fighting game starring Bollywood superheroes. When they land hard hits, they deliver their famous filmy dialogues.
 It's plain HTML5 Canvas + JavaScript with no build step and no dependencies.
 
-## Run
+## ▶ Play online
+
+**https://bolly-mortal-kombat.vercel.app**
+
+Click or press any key once to enable sound and dialogue voices.
+
+## Run locally
 
 ```bash
 python3 -m http.server 8765
