@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Bolly Kombat — Roster sheet</title>
+  <link href="https://fonts.googleapis.com/css2?family=Bungee&family=Teko:wght@500&display=swap" rel="stylesheet">
+  <style>body{margin:0;background:#1a1020;color:#fff;font-family:Teko,sans-serif} canvas{display:block;margin:0 auto;width:100%;height:auto}</style>
+</head>
+<body>
+  <!-- Dev tool: renders every fighter in several poses + portraits, to check outfits. ?pose=idle,punch,kick -->
+  <canvas id="c" width="1500" height="1000"></canvas>
+  <script src="../data/characters.js"></script>
+  <script src="../js/render.js"></script>
+  <script>
+    const c = document.getElementById('c'), ctx = c.getContext('2d');
+    const q = new URLSearchParams(location.search);
+    const poses = (q.get('pose') || 'idle').split(',');
+    const zoom = +(q.get('zoom') || 1.15);
+    const only = q.get('only');
+    const chars = BMK_DATA.characters.filter((ch) => !only || only.split(',').includes(ch.id));
+    let t = 0;
+    function draw() {
+      ctx.fillStyle = '#d8cfc0'; ctx.fillRect(0, 0, c.width, c.height);
+      const cols = Math.min(chars.length * poses.length, Math.floor(1400 / (160 * zoom)));
+      let i = 0;
+      for (const ch of chars) for (const p of poses) {
+        const col = i % cols, row = Math.floor(i / cols);
+        const x = 90 * zoom + col * 160 * zoom, y = 300 * zoom + row * 330 * zoom;
+        BMK.drawFighter(ctx, { char: ch, pose: BMK.copyPose(BMK.POSES[p]), x, y, facing: 1, scale: zoom, t, power: true, damaged: q.has('damaged') });
+        ctx.fillStyle = '#000'; ctx.font = '16px Bungee'; ctx.textAlign = 'center';
+        ctx.fillText(ch.name, x, y + 26 * zoom);
+        i++;
+      }
+      if (q.has('portraits')) chars.forEach((ch, j) => { ctx.fillStyle = '#3a1f4a'; ctx.fillRect(10 + j * 165, 860, 155, 135); BMK.drawPortrait(ctx, ch, 10 + j * 165, 860, 155, 135, {}); });
+    }
+    document.fonts.ready.then(draw); draw();
+  </script>
+</body>
+</html>

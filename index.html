@@ -1,0 +1,26 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Bolly Kombat — Dhishoom Edition</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bungee&family=Poppins:ital,wght@0,400;0,600;1,400;1,600&family=Teko:wght@500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <canvas id="game" width="1280" height="720" tabindex="0"></canvas>
+  <div id="hint">Click / press any key to enable sound &amp; dialogues 🔊</div>
+  <script src="data/characters.js"></script>
+  <script src="js/audio.js"></script>
+  <script src="js/render.js"></script>
+  <script src="js/game.js"></script>
+  <script>
+    const hint = document.getElementById('hint');
+    const off = () => { hint.style.opacity = 0; setTimeout(() => hint.remove(), 600); removeEventListener('keydown', off); removeEventListener('pointerdown', off); };
+    addEventListener('keydown', off); addEventListener('pointerdown', off);
+    document.getElementById('game').focus();
+  </script>
+</body>
+</html>
