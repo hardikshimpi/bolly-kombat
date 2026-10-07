@@ -26,28 +26,7 @@
   });
   addEventListener('keyup', (e) => keys.delete(e.code));
   addEventListener('blur', () => keys.clear());
-  const CREDIT_URL = 'https://hardikshimpi.vercel.app';
-  const CREDIT_LABEL = 'hardikshimpi.vercel.app';
-  const openCredit = () => window.open(CREDIT_URL, '_blank', 'noopener');
-  // clickable credit link: scenes expose `link = {x, y, w, h}` in canvas coordinates
-  canvas.addEventListener('pointerdown', (e) => {
-    A.init();
-    const r = canvas.getBoundingClientRect(), x = (e.clientX - r.left) * W / r.width, y = (e.clientY - r.top) * H / r.height;
-    const l = scene && scene.link;
-    if (l && x >= l.x && x <= l.x + l.w && y >= l.y && y <= l.y + l.h) openCredit();
-  });
-  canvas.addEventListener('pointermove', (e) => {
-    const r = canvas.getBoundingClientRect(), x = (e.clientX - r.left) * W / r.width, y = (e.clientY - r.top) * H / r.height;
-    const l = scene && scene.link;
-    canvas.style.cursor = l && x >= l.x && x <= l.x + l.w && y >= l.y && y <= l.y + l.h ? 'pointer' : 'default';
-  });
-  /** Draws the "Created by" credit line centred at (x, y) and records its clickable area on the scene. */
-  function drawCredit(sc, x, y, size) {
-    drawText('Created by ' + CREDIT_LABEL, x, y, size, '#9fd3ff', { font: FONT2, stroke: 4 });
-    ctx.font = `${size}px ${FONT2}`;
-    const w = ctx.measureText('Created by ' + CREDIT_LABEL).width;
-    sc.link = { x: x - w / 2, y: y - size, w, h: size + 6 };
-  }
+  canvas.addEventListener('pointerdown', () => A.init());
   const hit = (...codes) => codes.some((c) => pressed.has(c));
 
   const MAP_P1 = { left: 'KeyA', right: 'KeyD', up: 'KeyW', down: 'KeyS', P: 'KeyF', K: 'KeyG', S: 'KeyH', b: 'KeyR', X: 'KeyT' };
@@ -1251,7 +1230,7 @@
 
   /* ── TITLE ── */
   const TitleScene = {
-    items: () => ['ARCADE  (1P vs CPU)', 'VERSUS  (2 Players)', `DIFFICULTY: ${['EASY', 'NORMAL', 'HARD'][settings.difficulty]}`, `VOICE (dialogues): ${A.voiceOn ? 'ON' : 'OFF'}`, `MUSIC: ${A.musicOn ? 'ON' : 'OFF'}`, 'HOW TO PLAY', 'CHARACTER DOSSIER', 'CREDITS'],
+    items: () => ['ARCADE  (1P vs CPU)', 'VERSUS  (2 Players)', `DIFFICULTY: ${['EASY', 'NORMAL', 'HARD'][settings.difficulty]}`, `VOICE (dialogues): ${A.voiceOn ? 'ON' : 'OFF'}`, `MUSIC: ${A.musicOn ? 'ON' : 'OFF'}`, 'HOW TO PLAY', 'CHARACTER DOSSIER'],
     sel: 0,
     enter() { A.setMusicMode('menu'); this.quote = pick(CH).dialogues; this.qc = pick(CH); this.q = pick(this.qc.dialogues); },
     update() {
@@ -1269,7 +1248,6 @@
           case 4: A.musicOn = !A.musicOn; A.sfx('select'); break;
           case 5: if (!lr) { A.sfx('confirm'); setScene(HowToScene); } break;
           case 6: if (!lr) { A.sfx('confirm'); setScene(new DossierScene()); } break;
-          case 7: if (!lr) { A.sfx('confirm'); setScene(new CreditsScene()); } break;
         }
       }
       if (frame % 300 === 0) { this.qc = pick(CH); this.q = pick(this.qc.dialogues); }
@@ -1286,7 +1264,7 @@
         pose.lean += Math.sin(frame * 0.05 + i) * 0.03;
         BMK.drawFighter(ctx, { char: c, pose, x, y: H - 44 - (i % 2) * 10, facing: left ? 1 : -1, scale: 0.8, t: frame, power: true });
       });
-      ctx.fillStyle = 'rgba(0,0,0,0.45)'; ctx.fillRect(W / 2 - 250, 272, 500, 282);
+      ctx.fillStyle = 'rgba(0,0,0,0.45)'; ctx.fillRect(W / 2 - 250, 272, 500, 250);
       const pulse = 1 + Math.sin(frame * 0.05) * 0.02;
       drawText('BOLLY', W / 2 - 4, 120, 96 * pulse, '#ffd23f', { stroke: 14, shadow: true });
       drawText('KOMBAT', W / 2, 205, 96 * pulse, '#ff3030', { stroke: 14, shadow: true });
@@ -1297,42 +1275,12 @@
       });
       if (this.q) {
         ctx.font = 'italic 18px "Poppins", Arial, sans-serif';
-        drawText(`"${this.q.text}"  — ${this.qc.name}`, W / 2, 580, 18, '#ffe9a8', { font: '"Poppins", Arial, sans-serif', weight: 'italic', stroke: 4 });
+        drawText(`"${this.q.text}"  — ${this.qc.name}`, W / 2, 555, 18, '#ffe9a8', { font: '"Poppins", Arial, sans-serif', weight: 'italic', stroke: 4 });
       }
-      drawCredit(this, W / 2, 618, 22);
       drawText('↑↓ select · ENTER confirm · ←→ change', W / 2, H - 12, 14, 'rgba(255,255,255,0.7)', { font: FONT2, stroke: 0 });
     }
   };
 
-  /* ── CREDITS ── */
-  class CreditsScene {
-    update() {
-      if (hit('Enter', 'Space', 'KeyF')) { A.sfx('confirm'); openCredit(); }
-      if (hit('Escape', 'Backspace')) { A.sfx('move'); setScene(TitleScene); }
-    }
-    draw() {
-      filmBackground(frame, 45);
-      drawText('CREDITS', W / 2, 100, 60, '#ffd23f', { stroke: 10 });
-      drawText('A BOLLY KOMBAT PRODUCTION', W / 2, 160, 26, '#fff', { font: FONT2, stroke: 4 });
-      drawText('Created by', W / 2, 225, 26, '#ffe9a8', { font: FONT2, stroke: 4 });
-      const pulse = 1 + Math.sin(frame * 0.08) * 0.03;
-      drawText(CREDIT_LABEL, W / 2, 285, 44 * pulse, '#3fd0ff', { stroke: 8 });
-      ctx.font = `44px ${FONT}`;
-      const w = ctx.measureText(CREDIT_LABEL).width;
-      this.link = { x: W / 2 - w / 2, y: 240, w, h: 56 };
-      ctx.fillStyle = '#3fd0ff'; ctx.fillRect(W / 2 - w / 2, 294, w, 3);
-      drawText('ENTER or click — open website in a new tab', W / 2, 330, 20, '#fff', { font: FONT2, stroke: 3 });
-      const lines = [
-        'Starring: ' + CH.map((c) => c.name).join(' · '),
-        'Dialogues: lovingly borrowed from Bollywood classics (plus a few new jokes)',
-        'Every character is drawn in code — no photos, stills or audio clips used',
-        'A fan-made parody. Respect to the stars, writers and films that inspired it.',
-        'Picture abhi baaki hai, mere dost!'
-      ];
-      lines.forEach((l, i) => drawText(l, W / 2, 410 + i * 40, i === 0 ? 18 : 22, i === lines.length - 1 ? '#ffd23f' : '#e9e2cf', { font: FONT2, stroke: 3 }));
-      drawText('ESC — back', W / 2, H - 12, 14, 'rgba(255,255,255,0.7)', { font: FONT2, stroke: 0 });
-    }
-  }
 
   /* ── HOW TO PLAY ── */
   const HowToScene = {
@@ -1577,8 +1525,7 @@
       drawText('NIKLE!', 820, 320, 60, '#ff3030', { stroke: 10 });
       const lines = [`${this.c.name} defeated the entire industry.`, 'Box office collection: ₹1,000 crore (worldwide)', 'Critics: ★★★★★  "Paisa vasool!"', 'Sequel announced: BOLLY KOMBAT 2 — Return of the Item Number'];
       lines.forEach((l, i) => drawText(l, 820, 400 + i * 38, 24, '#ffe9a8', { font: FONT2, stroke: 4 }));
-      drawCredit(this, 820, 575, 24);
-      if (frame > 90) drawText('ENTER — back to title', 820, 615, 18, 'rgba(255,255,255,0.7)', { font: FONT2, stroke: 0 });
+      if (frame > 90) drawText('ENTER — back to title', 820, 600, 18, 'rgba(255,255,255,0.7)', { font: FONT2, stroke: 0 });
     }
   }
   class VersusEndScene {

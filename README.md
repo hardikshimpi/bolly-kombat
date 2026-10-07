@@ -74,8 +74,3 @@ To add a line, edit `characters.js` and add an entry to a character's `dialogues
 ## Notes
 - No photos, film stills or audio clips are bundled. Every character is a cartoon drawn in code from its costume spec.
 - Voices use your browser's speech synthesis. A Hindi (hi-IN) voice is used when available; macOS has "Lekha".
-
-## Credits
-Created by **[hardikshimpi.vercel.app](https://hardikshimpi.vercel.app)**.
-
-The credit also appears in the game: on the title screen, on the **CREDITS** menu screen, and on the Arcade ending screen. The link is clickable, and pressing ENTER on the Credits screen opens it too.
