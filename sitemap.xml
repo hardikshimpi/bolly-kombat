@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
+  <url>
+    <loc>https://bolly-kombat.vercel.app/</loc>
+    <lastmod>2026-10-07</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>1.0</priority>
+    <image:image><image:loc>https://bolly-kombat.vercel.app/images/og-image.jpg</image:loc></image:image>
+    <image:image><image:loc>https://bolly-kombat.vercel.app/images/characters/gone.jpg</image:loc></image:image>
+    <image:image><image:loc>https://bolly-kombat.vercel.app/images/characters/raone.jpg</image:loc></image:image>
+    <image:image><image:loc>https://bolly-kombat.vercel.app/images/characters/krrish.jpg</image:loc></image:image>
+    <image:image><image:loc>https://bolly-kombat.vercel.app/images/characters/jatt.jpg</image:loc></image:image>
+    <image:image><image:loc>https://bolly-kombat.vercel.app/images/characters/chitti.jpg</image:loc></image:image>
+    <image:image><image:loc>https://bolly-kombat.vercel.app/images/characters/shaktimaan.jpg</image:loc></image:image>
+    <image:image><image:loc>https://bolly-kombat.vercel.app/images/characters/mrindia.jpg</image:loc></image:image>
+    <image:image><image:loc>https://bolly-kombat.vercel.app/images/characters/singham.jpg</image:loc></image:image>
+    <image:image><image:loc>https://bolly-kombat.vercel.app/images/characters/chulbul.jpg</image:loc></image:image>
+    <image:image><image:loc>https://bolly-kombat.vercel.app/images/characters/gabbar.jpg</image:loc></image:image>
+    <image:image><image:loc>https://bolly-kombat.vercel.app/images/characters/mogambo.jpg</image:loc></image:image>
+  </url>
+</urlset>

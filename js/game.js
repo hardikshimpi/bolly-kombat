@@ -22,7 +22,8 @@
     A.init();
     if (!keys.has(e.code)) pressed.add(e.code);
     keys.add(e.code);
-    if (BLOCK_DEFAULT.includes(e.code)) e.preventDefault();
+    // only swallow arrows/space while the game is on screen, so the info section below can still be scrolled
+    if (BLOCK_DEFAULT.includes(e.code) && window.scrollY < innerHeight * 0.5) e.preventDefault();
   });
   addEventListener('keyup', (e) => keys.delete(e.code));
   addEventListener('blur', () => keys.clear());

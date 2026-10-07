@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Bolly Kombat — image renderer</title>
+  <!-- Dev tool used by tools/build-seo.mjs (via headless Chrome):
+       ?            -> 1200x630 social preview image
+       ?portrait=id -> 400x400 character portrait -->
+  <link href="https://fonts.googleapis.com/css2?family=Bungee&family=Teko:wght@500;600&family=Poppins:wght@600&display=swap" rel="stylesheet">
+  <style>html,body{margin:0;background:#000;overflow:hidden} canvas{display:block}</style>
+</head>
+<body>
+  <canvas id="c"></canvas>
+  <script src="../data/characters.js"></script>
+  <script src="../js/render.js"></script>
+  <script>
+    const q = new URLSearchParams(location.search);
+    const c = document.getElementById('c'), ctx = c.getContext('2d');
+    const CH = BMK_DATA.characters, byId = (id) => CH.find((x) => x.id === id);
+    const P = BMK.POSES, pose = (n) => BMK.copyPose(P[n]);
+    function text(t, x, y, size, color, font, stroke) {
+      ctx.font = `${size}px ${font || '"Bungee", Impact, sans-serif'}`; ctx.textAlign = 'center';
+      ctx.lineJoin = 'round'; ctx.strokeStyle = '#000'; ctx.lineWidth = stroke == null ? size / 6 : stroke;
+      if (ctx.lineWidth) ctx.strokeText(t, x, y);
+      ctx.fillStyle = color; ctx.fillText(t, x, y);
+    }
+    function og() {
+      c.width = 1200; c.height = 630;
+      ctx.save(); ctx.scale(1200 / 1280, 1200 / 1280); ctx.translate(0, -40);
+      BMK.drawStage(ctx, 'marine', 1280, 720, 640, 30);
+      ctx.restore();
+      const g = ctx.createLinearGradient(0, 0, 0, 630);
+      g.addColorStop(0, 'rgba(10,0,20,0.75)'); g.addColorStop(0.45, 'rgba(10,0,20,0.15)'); g.addColorStop(1, 'rgba(0,0,0,0.55)');
+      ctx.fillStyle = g; ctx.fillRect(0, 0, 1200, 630);
+      // final boss, front and centre
+      const glow = ctx.createRadialGradient(600, 470, 20, 600, 470, 190);
+      glow.addColorStop(0, 'rgba(125,255,58,0.45)'); glow.addColorStop(1, 'rgba(125,255,58,0)');
+      ctx.fillStyle = glow; ctx.fillRect(400, 280, 400, 350);
+      BMK.drawFighter(ctx, { char: byId('mogambo'), pose: pose('victory'), x: 600, y: 618, facing: 1, scale: 1.12, t: 0, power: true });
+      // roster line-up
+      const heroes = CH.filter((x) => x.id !== 'mogambo');
+      heroes.forEach((ch, i) => {
+        const left = i < 5, x = left ? 70 + i * 92 : 1130 - (i - 5) * 92;
+        const p = pose(ch.id === 'gone' ? 'srk' : i % 2 ? 'victory' : 'taunt');
+        BMK.drawFighter(ctx, { char: ch, pose: p, x, y: 600 - (i % 2) * 6, facing: left ? 1 : -1, scale: 1.0, t: 0, power: true });
+      });
+      text('BOLLY', 600, 120, 104, '#ffd23f');
+      text('KOMBAT', 600, 222, 104, '#ff3030');
+      text('BOLLYWOOD SUPERHERO FIGHTING GAME', 600, 272, 30, '#ffffff', '"Teko", sans-serif', 5);
+      text('Iconic filmy dialogues  ·  Play free in your browser', 600, 306, 26, '#9fd3ff', '"Teko", sans-serif', 4);
+    }
+    function portrait(id) {
+      const s = +(q.get('size') || 400);
+      c.width = s; c.height = s;
+      const g = ctx.createLinearGradient(0, 0, 0, s); g.addColorStop(0, '#4a2060'); g.addColorStop(1, '#120a18');
+      ctx.fillStyle = g; ctx.fillRect(0, 0, s, s);
+      ctx.globalAlpha = 0.12;
+      for (let i = 0; i < 12; i++) { ctx.save(); ctx.translate(s / 2, s / 2); ctx.rotate(i * 0.52); ctx.fillStyle = '#ffd23f'; ctx.fillRect(0, -10, s, 20); ctx.restore(); }
+      ctx.globalAlpha = 1;
+      BMK.drawPortrait(ctx, byId(id), 0, -s * 0.06, s, s * 1.06, { t: 0, zoom: 0.62 });
+    }
+    function draw() { q.get('portrait') ? portrait(q.get('portrait')) : og(); document.title = 'ready'; }
+    document.fonts.ready.then(() => Promise.all(['Bungee', 'Teko', 'Poppins'].map((f) => document.fonts.load(`20px "${f}"`)))).then(draw, draw);
+  </script>
+</body>
+</html>

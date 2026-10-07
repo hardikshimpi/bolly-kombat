@@ -65,6 +65,14 @@ node tools/export-dataset.mjs   # -> data/characters.json, data/dialogues.csv
 ```
 To add a line, edit `characters.js` and add an entry to a character's `dialogues` array.
 
+## SEO
+The page is the game plus a crawlable content section below it (about, characters, controls, stages, FAQ). The section, the JSON-LD structured data, `sitemap.xml` and `robots.txt` are all generated from the dataset:
+```bash
+node tools/build-seo.mjs            # regenerate content + structured data + sitemap/robots
+node tools/build-seo.mjs --images   # also re-render images/og-image.jpg and character portraits (needs Google Chrome)
+```
+Run it after editing `data/characters.js`. Meta, Open Graph and Twitter tags live in `index.html`.
+
 ## Files
 - `js/game.js`: engine, combat, AI, specials/supers/fatalities, scenes, HUD
 - `js/render.js`: procedural character renderer (skeleton poses + outfits), portraits, stages, effects
