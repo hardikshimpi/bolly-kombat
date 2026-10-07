@@ -5,7 +5,7 @@ It's plain HTML5 Canvas + JavaScript with no build step and no dependencies.
 
 ## ▶ Play online
 
-**https://bolly-mortal-kombat.vercel.app**
+**https://bolly-kombat.vercel.app**
 
 Click or press any key once to enable sound and dialogue voices.
 
