@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <defs><linearGradient id="g" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#c8162a"/><stop offset="1" stop-color="#3d0610"/></linearGradient></defs>
+  <rect width="64" height="64" rx="13" fill="url(#g)"/>
+  <polygon points="32.00,2.50 36.78,11.04 44.80,5.42 45.41,15.19 55.06,13.61 51.37,22.67 60.76,25.44 53.50,32.00 60.76,38.56 51.37,41.33 55.06,50.39 45.41,48.81 44.80,58.58 36.78,52.96 32.00,61.50 27.22,52.96 19.20,58.58 18.59,48.81 8.94,50.39 12.63,41.33 3.24,38.56 10.50,32.00 3.24,25.44 12.63,22.67 8.94,13.61 18.59,15.19 19.20,5.42 27.22,11.04" fill="#ffd23f" stroke="#000" stroke-width="2" stroke-linejoin="round"/>
+  <g fill="#e8141f" stroke="#000" stroke-width="2.4" stroke-linejoin="round" paint-order="stroke" fill-rule="evenodd">
+    <path d="M13 19H26L30.5 23.5V29L28.5 32L30.5 35V40.5L26 45H13ZM18.5 24V29.5H24L25 28.5V25L24 24ZM18.5 34.5V40H24L25 39V35.5L24 34.5Z"/>
+    <path d="M33 19H38.5V28.5L44.5 19H51L42.5 32L51 45H44.5L38.5 35.5V45H33Z"/>
+  </g>
+</svg>

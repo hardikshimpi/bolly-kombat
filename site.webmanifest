@@ -1,0 +1,13 @@
+{
+  "name": "Bolly Kombat — Dhishoom Edition",
+  "short_name": "Bolly Kombat",
+  "icons": [
+    { "src": "icons/icon-192.png", "sizes": "192x192", "type": "image/png" },
+    { "src": "icons/icon-512.png", "sizes": "512x512", "type": "image/png" }
+  ],
+  "start_url": "/",
+  "display": "fullscreen",
+  "orientation": "landscape",
+  "background_color": "#050207",
+  "theme_color": "#c8162a"
+}
